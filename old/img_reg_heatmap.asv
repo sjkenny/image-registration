@@ -1,0 +1,78 @@
+% total image alignment
+% step 1: CP mapping from conventional images
+% step 2: CP mapping from rough aligned heatmap+STORM image
+% step 3: demon transform
+% save tform and displacement field as outputs
+
+% load images
+addpath ../common
+
+if exist('LastFolder','var')
+    GetFileName=sprintf('%s/*.png',LastFolder);
+else
+    GetFileName='*.png';
+end
+
+[FileName,PathName] = uigetfile(GetFileName,'Select image');
+LastFolder=PathName;
+
+
+[FileName_s,PathName_s] = uigetfile(GetFileName,'Select STORM image');
+LastFolder=PathName;
+
+FullFileName_s=sprintf('%s%s',PathName_s,FileName_s);
+
+FullFileName=sprintf('%s%s',PathName,FileName);
+filehead = FullFileName(1:end-4); %File name without ".bin" or "*.txt"
+OutDaxFile = sprintf('%s.dax',filehead);
+OutInfFile = sprintf('%s.inf',filehead);
+
+filename_tform = sprintf('%s_tform.mat',filehead);
+
+
+Img = imread(FullFileName);
+Img_s = imread(FullFileName_s);
+%load in heatmap data
+
+unregistered = ReferenceImage_Crop;
+unregistered_adj = imadjust(unregistered);
+orthophoto_adj = imadjust(uint16(rgb2gray(Img)));
+cpreg=1;
+while cpreg==1
+    [registered_adj,tform] = ImageRegCP(unregistered_adj,orthophoto_adj);
+    imshowpair(registered_adj,orthophoto_adj)
+    prompt = 'Check CP mapping (press 0 to exit, 1 to retry): ';
+    thresh = input(prompt);
+    if thresh==0
+        cpreg=0;
+        break
+    end
+end
+%%
+s = size(orthophoto_adj);
+B = imtransform(Probability_Heatmap_Filtered,tform,'XData',...
+            [1 s(2)], 'YData', [1 s(1)],...
+            'FillValues',0, 'Size', [s(1) s(2)]);
+        
+        
+    idx = find(isnan(B));          
+
+    D=B;
+    D(idx)=0;  
+    D=imadjust(D);
+cpreg=1;
+orthophoto_adj_s = imadjust(uint16(rgb2gray(Img_s)));
+while cpreg==1
+    [registered_adj_s,tform2] = ImageRegCP(D,orthophoto_adj_s);
+    imshowpair(registered_adj_s,orthophoto_adj_s)
+    prompt = 'Check CP mapping (press 0 to exit, 1 to retry): ';
+    thresh = input(prompt);
+    if thresh==0
+        cpreg=0;
+        break
+    end
+end
+%gaussian blur
+H=fspecial('gauss
+
+
