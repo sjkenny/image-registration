@@ -19,7 +19,7 @@ Correlative imaging can enable new insights by harnessing the strengths of multi
 
 Fluorescent images of a membrane label are taken on each microscope as references for initial alignment. Hand selection of control points provides an initial rigid transformation.  This is mostly necessary to crop the two images to the same size and shape, in order to improve the correspondence between features extracted in each image.  Exact overlap is unnecessary.
 
-![Affine transformation](https://i.imgur.com/p4eVuNO.png)
+![Affine transformation](https://i.imgur.com/q9T03eA.png)
 
 The resulting transformation is applied to both point cloud images:
 
