@@ -6,15 +6,18 @@ Correlative imaging can enable new insights by harnessing the strengths of multi
 - [STORM image I/O](https://github.com/sjkenny/common) for STORM molecule lists generated with Insight3
 - [DBSCAN and flood fill clustering](https://github.com/sjkenny/clustering) for feature extraction
 
+### Required inputs:
+Conventional fluorescence images of the same target are required from each microscope for initial registration.  Point clouds may also be binned into pixels and used for initial registration if fluorescence reference images are not available. Each point cloud must have three fields: x,y coordinates, as well as local density (code for local density calculation available [here]).
+
 ### Sample workflow:
-#### 1. Manual affine image registration by control point selection
-#### 2. Identification of active zones in each image by DBSCAN clustering
-#### 3. [Point matching for non-rigid registration (Zheng 2006)](http://ieeexplore.ieee.org/abstract/document/1597120/)
-#### 4. Interpolation of matched clusters by vector field spline fitting
+#### 1. Manual affine image registration by control point selection (img_reg_similarity.m)
+#### 2. Identification of active zones in each image by DBSCAN clustering (reg_clustering_affine_v3.m)
+#### 3. [Point matching for non-rigid registration (Zheng 2006)](http://ieeexplore.ieee.org/abstract/document/1597120/) (reg_clustering_affine_v3.m)
+#### 4. Interpolation of matched clusters by vector field spline fitting (interpolate_matches.m)
 #### Additional scripts included for post-registration quantification of matched sites:
-- Jarvis march-based neuron outlining
-- Cluster alignment and averaging
-- Protein count normalization and quantification
+- Jarvis march-based neuron outlining (compute_mask.m)
+- Cluster alignment and averaging (reg_clustering_affine_v3.m)
+- Protein count normalization and quantification (quantify_matches.m)
 
 
 Fluorescent images of a membrane label are taken on each microscope as references for initial alignment. Hand selection of control points provides an initial rigid transformation.  This is mostly necessary to crop the two images to the same size and shape, in order to improve the correspondence between features extracted in each image.  Exact overlap is unnecessary.
