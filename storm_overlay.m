@@ -25,9 +25,10 @@ yStart = a.DispY-0.5;
 LeftFile = sprintf('%s%s',PathNameL,FileNameL);
 LeftImg=imread(LeftFile);
 %% plot hull over storm img
-fcn_use = [Evoked_Coordinates_Ib; Evoked_Coordinates_Is];
-fcn_use(:,1) = fcn_use(:,1)+200;
-fcn_use_scale = fcn_use.*zoom;
+fcn_use = [reg_evoked_Ib; reg_evoked_Is];
+fcn_use_scale = bsxfun(@minus,fcn_use,[xStart yStart]);
+fcn_use_scale(:,1) = fcn_use_scale(:,1)+150;
+fcn_use_scale = fcn_use_scale.*zoom;
 % brp_use_scale = brp_use;
 % brp_use_scale_1 = brp_use1;
 
@@ -36,7 +37,10 @@ fcn_use_scale = fcn_use.*zoom;
 % 
 % brp_use_scale = brp_use_scale*zoom;
 % brp_use_scale_1 = brp_use_scale_1*zoom;
-imshow(LeftImg)
+
+LeftImgPad = padarray(LeftImg,[0 450],'post');
+clf
+imshow(LeftImgPad)
 hold on
 % plot_hull(brp_use_scale,hull_idx);
 % plot_hull(brp_use_scale_1,hull_idx1);

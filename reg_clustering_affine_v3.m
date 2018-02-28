@@ -325,7 +325,7 @@ out.fcn_cluster_idx = cluster_idx_heatmap;
 out.storm_centers = centers_brp;
 out.match_idx = match_idx_out;
 out.tform = tform;
-out.idx_storm_clean = idx_storm_include;
+out.idx_storm_clean = idx_storm_include;    % match_idx references these
 out.idx_fcn_clean = idx_hm_include;
 
 

@@ -44,13 +44,12 @@ save('points_interp','fcn_center_predict','storm_centers')
 
 u = feval(xFit,x,y);
 v = feval(yFit,x,y);
-% quiver(x,y,u,v,'Color','g','AutoScale','off')
+quiver(x,y,u,v,'Color','g','AutoScale','off')
 hold on
 plot(storm_centers(:,1),storm_centers(:,2),'k.')
 hold on
 axis equal
 plot(fcn_center_predict(:,1),fcn_center_predict(:,2),'m.')
-% interpolated matches
 
 for j=1:length(storm_centers)
 
@@ -58,14 +57,9 @@ for j=1:length(storm_centers)
     y1=[fcn_center_predict(j,2) storm_centers(j,2)];
 
     line(x1,y1)
-    
+    x=[match(j,1) storm_centers(j,1)];
+    y=[fcn_center_predict(j,2) storm_centers(j,2)];
+
+    line(x,y)
 
 end
-% matches
-for j=1:length(match_idx)
-    x=[fcn_centers(match_idx(j,2),1) storm_centers(match_idx(j,1),1)];
-    y=[fcn_centers(match_idx(j,2),2) storm_centers(match_idx(j,1),2)];
-
-    line(x,y,'color','r')
-end
-    
